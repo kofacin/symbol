@@ -1,0 +1,62 @@
+import string
+import re
+from collections import Counter
+
+def count_words(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        text = file.read().lower()
+        words = re.findall(r'\b\w+\b', text)
+        return len(words)
+
+def unique_words(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        text = file.read().lower()
+        words = re.findall(r'\b\w+\b', text)
+        return set(words)
+
+def top_n_words(file_path, n):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        text = file.read().lower()
+        words = re.findall(r'\b\w+\b', text)
+        word_count = Counter(words)
+        return word_count.most_common(n)
+
+def count_sentences(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        text = file.read()
+        sentences = re.split(r'[.!?]+', text)
+        return len(sentences)
+
+def average_word_length(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        text = file.read().lower()
+        words = re.findall(r'\b\w+\b', text)
+        total_length = sum(len(word) for word in words)
+        return total_length / len(words)
+
+def main():
+    file_path = 'example.txt'  # Путь к текстовому файлу
+    try:
+        total_words = count_words(file_path)
+        print(f"Total words: {total_words}")
+
+        unique = unique_words(file_path)
+        print(f"Unique words: {len(unique)}")
+
+        n = 5  # Топ N слов
+        top_n = top_n_words(file_path, n)
+        print(f"Top {n} words: {top_n}")
+
+        total_sentences = count_sentences(file_path)
+        print(f"Total sentences: {total_sentences}")
+
+        avg_length = average_word_length(file_path)
+        print(f"Average word length: {avg_length:.2f}")
+
+    except FileNotFoundError:
+        print("File not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    main()
